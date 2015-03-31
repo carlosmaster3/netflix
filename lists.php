@@ -47,7 +47,7 @@
 			$ch = curl_init();
 			curl_setopt_array($ch, [
 				CURLOPT_URL => $url,
-				CURLOPT_RETURNTRANSFER => true,
+				CURLOPT_RETURNTRANSFER => true
 			]);
 
 			$res = curl_exec($ch);
@@ -57,15 +57,34 @@
 				$ranges[$line->ip_prefix] = $line->ip_prefix;
 			}
 
-			$cidrs = [];
-			foreach($ranges as $range) {
-				$cidrs[] = new CIDR($range);
-			}
+            $cidrs = [];
+            foreach($ranges as $range) {
+                $cidrs[] = new CIDR($range);
+            }
 
 			$ranges = static::reduce($cidrs);
 
 			return $ranges;
 		}
+
+        private function getListByASN() {
+            $res = shell_exec("whois -h whois.radb.net '!gAS32934'|grep '/'");
+            $raw = explode(' ', trim($res));
+
+            $ranges = [];
+            foreach($raw as $line) {
+                $ranges[$line] = $line;
+            }
+
+            $cidrs = [];
+            foreach($ranges as $range) {
+                $cidrs[] = new CIDR($range);
+            }
+
+            $ranges = static::reduce($cidrs);
+
+            return $ranges;
+        }
 
 		public static function reduce (array $ranges) {
 			$pairs = [];
@@ -111,4 +130,5 @@
 
 
 new AddressList("aws","dst-amazonaws");
+new AddressList("facebook");
 
