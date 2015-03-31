@@ -24,12 +24,9 @@
 				$ip_mask = ~((1 << (32 - $mask)) - 1);
 				$network = $network & $ip_mask;
 
+				$this->mask = $tokens[1];
 				$this->first_ip_long = $network;
 				$this->last_ip_long = $network + pow(2, (32 - $mask)) -1;
-
-				$this->network = long2ip($this->first_ip_long);
-				$this->mask = $tokens[1];
-				$this->last_ip = long2ip($this->last_ip_long);
 			}
 		}
 
@@ -38,7 +35,7 @@
 		}
 
 		public function getCIDR() {
-			return $this->network."/".$this->mask;
+			return long2ip($this->first_ip_long)."/".$this->mask;
 		}
 
 		public function includeIP($ip) {
@@ -50,7 +47,7 @@
 		}
 
 		public function __toString() {
-			return $this->getCIDR()." (".$this->network."-".$this->last_ip.")";
+			return $this->getCIDR()." (".long2ip($this->first_ip_long)."-".long2ip($this->last_ip_long).")";
 		}
 	}
 
