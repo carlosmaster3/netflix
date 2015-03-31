@@ -1,6 +1,6 @@
 <?php
 
-	require_once 'cidr.php';
+	require_once 'cidr.class.php';
 
 echo "10.0.0.0/8: ".new CIDR("10.0.0.0/8")."\n";
 echo "192.168.0.0/16: ".new CIDR("192.168.0.0/16")."\n";
