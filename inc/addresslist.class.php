@@ -1,5 +1,6 @@
 <?php
 
+    require_once 'inc/as-tables.php';
     require_once 'inc/cidr.class.php';
 
     class AddressList {
@@ -72,7 +73,9 @@
         }
 
         private function getListByASN() {
-            $res = shell_exec("whois -h whois.radb.net '!gAS32934'|grep '/'");
+	    global $AS_TABLES;
+	    $asn = $AS_TABLES[$this->id]["number"];
+            $res = shell_exec("whois -h whois.radb.net '!gAS$asn'|grep '/'");
             $raw = explode(' ', trim($res));
 
             $ranges = [];
