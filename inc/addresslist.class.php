@@ -20,6 +20,9 @@
                     break;
                 case "facebook":
                 case "google":
+		case "bso":
+		case "proceau":
+		case "akamai":
                     $list = $this->getListByASN();
                     break;
                 default:
