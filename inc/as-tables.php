@@ -6,4 +6,5 @@
 		"proceau" => ["name" => "PROceau", "number" => 43424],
 		"akamai" => ["name" => "Akamai", "number" => 20940],
 		"bso" => ["name" => "BSONetwork", "number" => 31216],
+		"netflix" => ["name" => "Netflix", "number" => 2906],
 	];

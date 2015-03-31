@@ -23,6 +23,7 @@
 		case "bso":
 		case "proceau":
 		case "akamai":
+		case "netflix":
                     $list = $this->getListByASN();
                     break;
                 default:
