@@ -1,5 +1,8 @@
 <?php
 
+    set_time_limit(120);
+
+    require_once 'inc/as-tables.php';
     require_once 'inc/cidr.class.php';
 
     class AddressList {
@@ -20,6 +23,10 @@
                     break;
                 case "facebook":
                 case "google":
+		case "bso":
+		case "proceau":
+		case "akamai":
+		case "netflix":
                     $list = $this->getListByASN();
                     break;
                 default:
@@ -68,25 +75,26 @@
         }
 
         private function getListByASN() {
-            $res = shell_exec("whois -h whois.radb.net '!gAS32934'|grep '/'");
-            $raw = explode(' ', trim($res));
+	    global $AS_TABLES;
+	    $asn = $AS_TABLES[$this->id]["number"];
+	    $seres = trim(shell_exec("whois -h whois.radb.net '!gAS$asn'|grep '/'"));
+	    $res = str_replace(["\n","\r"],'',$seres);		
+            $raw = explode(' ', $res);
 
             $ranges = [];
             foreach($raw as $line) {
-                $ranges[$line] = $line;
+                $ranges[$line] = new CIDR($line);
             }
 
-            $cidrs = [];
-            foreach($ranges as $range) {
-                $cidrs[] = new CIDR($range);
-            }
-
-            $ranges = static::reduce($cidrs);
+	    if ($this->id != "google") {	#Require optimizations
+		$ranges = array_values($ranges);
+                $ranges = static::reduce($ranges);
+	    }
 
             return $ranges;
         }
 
-        public static function reduce (array $ranges) {
+        public static function reduce (array &$ranges) {
             $pairs = [];
             $includes = [];
             $includes2 = [];
