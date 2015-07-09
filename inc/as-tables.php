@@ -1,6 +1,7 @@
 <?php
 
 	$AS_TABLES = [
+        "apple" => ["name" => "Apple", "number" => 714],
 		"google" => ["name" => "Google/Youtube", "number" => 15169],
 		"facebook" => ["name" => "Facebook", "number" => 32934],
 		"proceau" => ["name" => "PROceau", "number" => 43424],
