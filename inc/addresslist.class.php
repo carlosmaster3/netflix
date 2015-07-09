@@ -23,10 +23,11 @@
                     break;
                 case "facebook":
                 case "google":
-		case "bso":
-		case "proceau":
-		case "akamai":
-		case "netflix":
+                case "bso":
+                case "proceau":
+                case "akamai":
+                case "netflix":
+                case "apple":
                     $list = $this->getListByASN();
                     break;
                 default:
